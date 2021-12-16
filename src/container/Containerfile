@@ -29,11 +29,11 @@ RUN curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | b
 
 # let's encrypt 
 RUN mkdir /usr/local/share/ca-certificates/lets-encrypt && \
-  curl --output-dir /usr/local/share/ca-certificates/lets-encrypt -o isgroot1.crt https://letsencrypt.org/certs/isrgrootx1.pem && \
-  curl --output-dir /usr/local/share/ca-certificates/lets-encrypt -o lets-encrypt-r3.crt https://letsencrypt.org/certs/lets-encrypt-r3.pem && \
-  curl --output-dir /usr/local/share/ca-certificates/lets-encrypt -o isrg-root-x2.crt https://letsencrypt.org/certs/isrg-root-x2.pem && \
-  curl --output-dir /usr/local/share/ca-certificates/lets-encrypt -o lets-encrypt-e1.crt https://letsencrypt.org/certs/lets-encrypt-e1.pem && \
-  update-ca-caertificates
+  curl --output /usr/local/share/ca-certificates/lets-encrypt/isgroot1.crt https://letsencrypt.org/certs/isrgrootx1.pem && \
+  curl --output /usr/local/share/ca-certificates/lets-encrypt/lets-encrypt-r3.crt https://letsencrypt.org/certs/lets-encrypt-r3.pem && \
+  curl --output /usr/local/share/ca-certificates/lets-encrypt/isrg-root-x2.crt https://letsencrypt.org/certs/isrg-root-x2.pem && \
+  curl --output /usr/local/share/ca-certificates/lets-encrypt/lets-encrypt-e1.crt https://letsencrypt.org/certs/lets-encrypt-e1.pem && \
+  update-ca-certificates
   
 # Clean up
 RUN apt-get remove -y perl
