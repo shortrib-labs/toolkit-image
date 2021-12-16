@@ -2,14 +2,23 @@ FROM ubuntu:focal
 
 RUN apt-get update && apt-get install -y \
   apt-transport-https \
+  gnupg \
   ca-certificates \
   curl \
   perl
 
 # kubectl
-RUN curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg && \
-  echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | tee /etc/apt/sources.list.d/kubernetes.list
-RUN apt-get update && apt-get install -y kubectl && apt-get clean
+RUN curl -fsSL https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -&& \
+  echo "deb [arch=amd64] https://apt.kubernetes.io/ kubernetes-xenial main" | tee /etc/apt/sources.list.d/kubernetes.list
+RUN apt-get update && apt-get install -y kubectl 
+
+# hashicorp tooling
+RUN curl -fsSL https://apt.releases.hashicorp.com/gpg | apt-key add - && \
+  echo "deb [arch=amd64] https://apt.releases.hashicorp.com xenial main" | tee /etc/apt/sources.list.d/hashicorp.list && \
+  apt-get update && apt-get install -y packer \
+    terraform \
+    vault
+RUN apt-get clean
 
 
 # Carvel tools
@@ -18,5 +27,13 @@ RUN curl -fsSL https://carvel.dev/install.sh | bash
 # Helm
 RUN curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
 
+# let's encrypt 
+RUN mkdir /usr/local/share/ca-certificates/lets-encrypt && \
+  curl --output-dir /usr/local/share/ca-certificates/lets-encrypt -o isgroot1.crt https://letsencrypt.org/certs/isrgrootx1.pem && \
+  curl --output-dir /usr/local/share/ca-certificates/lets-encrypt -o lets-encrypt-r3.crt https://letsencrypt.org/certs/lets-encrypt-r3.pem && \
+  curl --output-dir /usr/local/share/ca-certificates/lets-encrypt -o isrg-root-x2.crt https://letsencrypt.org/certs/isrg-root-x2.pem && \
+  curl --output-dir /usr/local/share/ca-certificates/lets-encrypt -o lets-encrypt-e1.crt https://letsencrypt.org/certs/lets-encrypt-e1.pem && \
+  update-ca-caertificates
+  
 # Clean up
 RUN apt-get remove -y perl
