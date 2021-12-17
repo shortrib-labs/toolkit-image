@@ -20,6 +20,8 @@ RUN curl -fsSL https://apt.releases.hashicorp.com/gpg | apt-key add - && \
     vault
 RUN apt-get clean
 
+# govc VMware command-line
+RUNcurl -L -o - "https://github.com/vmware/govmomi/releases/latest/download/govc_$(uname -s)_$(uname -m).tar.gz" | tar -C /usr/local/bin -xvzf - govc
 
 # Carvel tools
 RUN curl -fsSL https://carvel.dev/install.sh | bash 
