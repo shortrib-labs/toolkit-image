@@ -1,11 +1,11 @@
 ---
-  resources:
+resources:
   # Use the example docker configuration in the Tailscale source
 - name: toolkit-source
   type: git
   icon: github
   source:
-      uri: ((toolkit.repository))
+    uri: ((toolkit.repository))
     branch: ((toolkit.branch))
 
 # Where we will push the image
@@ -20,9 +20,9 @@
     password: ((registry.token))
 
 jobs:
-  - name: create-image
+- name: create-image
   plan:
-    - get: toolkit-source
+  - get: toolkit-source
     trigger: true
   - task: build-image
     privileged: true
@@ -39,7 +39,7 @@ jobs:
       outputs:
       - name: image
       params:
-        CONTEXT: toolkit-source/
+        DOCKERFILE: toolkit-source/src/container/Containerfile
       run:
         path: build
   - put: toolkit-image
