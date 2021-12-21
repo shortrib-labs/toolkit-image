@@ -1,0 +1,39 @@
+FROM ubuntu:focal 
+
+RUN apt-get update && apt-get install -y \
+  apt-transport-https \
+  gnupg \
+  ca-certificates \
+  curl \
+  git 
+
+# kubectl
+RUN curl -fsSL https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -&& \
+  echo "deb [arch=amd64] https://apt.kubernetes.io/ kubernetes-xenial main" | tee /etc/apt/sources.list.d/kubernetes.list
+RUN apt-get update && apt-get install -y kubectl 
+
+# hashicorp tooling
+RUN curl -fsSL https://apt.releases.hashicorp.com/gpg | apt-key add - && \
+  echo "deb [arch=amd64] https://apt.releases.hashicorp.com xenial main" | tee /etc/apt/sources.list.d/hashicorp.list && \
+  apt-get update && apt-get install -y packer \
+    terraform \
+    vault
+RUN apt-get clean
+
+# govc VMware command-line
+RUN curl -L -o - "https://github.com/vmware/govmomi/releases/latest/download/govc_$(uname -s)_$(uname -m).tar.gz" | tar -C /usr/local/bin -xvzf - govc
+
+# Carvel tools
+RUN curl -fsSL https://carvel.dev/install.sh | bash 
+
+# Helm
+RUN curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+
+# let's encrypt 
+RUN mkdir /usr/local/share/ca-certificates/lets-encrypt && \
+  curl --output /usr/local/share/ca-certificates/lets-encrypt/isgroot1.crt https://letsencrypt.org/certs/isrgrootx1.pem && \
+  curl --output /usr/local/share/ca-certificates/lets-encrypt/lets-encrypt-r3.crt https://letsencrypt.org/certs/lets-encrypt-r3.pem && \
+  curl --output /usr/local/share/ca-certificates/lets-encrypt/isrg-root-x2.crt https://letsencrypt.org/certs/isrg-root-x2.pem && \
+  curl --output /usr/local/share/ca-certificates/lets-encrypt/lets-encrypt-e1.crt https://letsencrypt.org/certs/lets-encrypt-e1.pem && \
+  update-ca-certificates
+  

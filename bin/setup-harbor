@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+REGISTRY=$(yq e .registry.fqdn ${PARAMS_YAML})
+curl --user "admin:${HARBOR_PASSWORD}" -X POST https://${REGISTRY}/api/v2.0/projects -H "Content-type: application/json" --data @${PROJECT_DIR}/config/harbor/project.json

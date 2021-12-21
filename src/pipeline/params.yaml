@@ -1,0 +1,6 @@
+toolkit:
+  repository: https://github.com/shortrib-net/toolkit-image
+  branch: main
+
+image:
+  repository: toolkit/toolkit
