@@ -5,7 +5,8 @@ RUN apt-get update && apt-get install -y \
   gnupg \
   ca-certificates \
   curl \
-  git 
+  git \
+  jq
 
 # kubectl
 RUN curl -fsSL https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -&& \
@@ -37,3 +38,6 @@ RUN mkdir /usr/local/share/ca-certificates/lets-encrypt && \
   curl --output /usr/local/share/ca-certificates/lets-encrypt/lets-encrypt-e1.crt https://letsencrypt.org/certs/lets-encrypt-e1.pem && \
   update-ca-certificates
   
+# YQ, use the snap since it's directly supported
+snap install yq
+
