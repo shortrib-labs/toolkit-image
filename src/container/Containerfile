@@ -39,5 +39,5 @@ RUN mkdir /usr/local/share/ca-certificates/lets-encrypt && \
   update-ca-certificates
   
 # YQ, use the snap since it's directly supported
-snap install yq
+RUN snap install yq
 
