@@ -19,6 +19,7 @@ RUN curl -fsSL https://apt.releases.hashicorp.com/gpg | apt-key add - && \
   apt-get update && apt-get install -y packer \
     terraform \
     vault
+
 RUN apt-get clean
 
 # govc VMware command-line
@@ -38,6 +39,8 @@ RUN mkdir /usr/local/share/ca-certificates/lets-encrypt && \
   curl --output /usr/local/share/ca-certificates/lets-encrypt/lets-encrypt-e1.crt https://letsencrypt.org/certs/lets-encrypt-e1.pem && \
   update-ca-certificates
   
-# YQ, use the snap since it's directly supported
-RUN snap install yq
-
+# YQ, using the contributed package
+RUN curl -s https://api.github.com/repos/mikefarah/yq/releases/latest | \
+  jq '.assets[] | select(.name == "yq_linux_amd64").browser_download_url' | \
+  xargs curl --location --output /usr/local/bin/yq && \
+  chmod 755 /usr/local/bin/yq
