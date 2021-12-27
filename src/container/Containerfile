@@ -4,6 +4,7 @@ RUN apt-get update && apt-get install -y \
   apt-transport-https \
   gnupg \
   ca-certificates \
+  mkisofs \
   curl \
   git \
   jq
