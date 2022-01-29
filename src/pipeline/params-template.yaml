@@ -1,0 +1,4 @@
+#@ load("@ytt:data", "data")
+---
+toolkit: #@ data.values.toolkit
+image: #@ data.values.image
