@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+set -e
+
+put-secret --team platform-team --pipeline "$(basename ${PROJECT_DIR})" \
+  --var registry fqdn="$(yq e .registry.fqdn ${PARAMS_YAML})"  \
+                 robot="$(yq e .registry.robot ${PARAMS_YAML})"  \
+                 token="$(yq e .registry.token ${PARAMS_YAML})"
+
+put-secret --team platform-team --pipeline "$(basename ${PROJECT_DIR})" \
+  --var github user="$(yq e .registry.user ${PARAMS_YAML})"  \
+               token="$(yq e .registry.token ${PARAMS_YAML})" 
