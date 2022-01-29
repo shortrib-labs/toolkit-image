@@ -11,12 +11,12 @@ RUN apt-get update && apt-get install -y \
 
 # kubectl
 RUN curl -fsSL https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -&& \
-  echo "deb [arch=amd64] https://apt.kubernetes.io/ kubernetes-xenial main" | tee /etc/apt/sources.list.d/kubernetes.list
+  echo "deb [arch=amd64] https://apt.kubernetes.io/ kubernetes-focal main" | tee /etc/apt/sources.list.d/kubernetes.list
 RUN apt-get update && apt-get install -y kubectl 
 
 # hashicorp tooling
 RUN curl -fsSL https://apt.releases.hashicorp.com/gpg | apt-key add - && \
-  echo "deb [arch=amd64] https://apt.releases.hashicorp.com xenial main" | tee /etc/apt/sources.list.d/hashicorp.list && \
+  echo "deb [arch=amd64] https://apt.releases.hashicorp.com focal main" | tee /etc/apt/sources.list.d/hashicorp.list && \
   apt-get update && apt-get install -y packer \
     terraform \
     vault
