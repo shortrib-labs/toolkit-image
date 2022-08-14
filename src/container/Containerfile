@@ -1,4 +1,4 @@
-FROM ubuntu:focal 
+FROM ubuntu:jammy 
 
 RUN apt-get update && apt-get install -y \
   apt-transport-https \
@@ -11,12 +11,12 @@ RUN apt-get update && apt-get install -y \
 
 # kubectl
 RUN curl -fsSL https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -&& \
-  echo "deb [arch=amd64] https://apt.kubernetes.io/ kubernetes-xenial main" | tee /etc/apt/sources.list.d/kubernetes.list
+  echo "deb [arch=amd64] https://apt.kubernetes.io/ kubernetes-focal main" | tee /etc/apt/sources.list.d/kubernetes.list
 RUN apt-get update && apt-get install -y kubectl 
 
 # hashicorp tooling
 RUN curl -fsSL https://apt.releases.hashicorp.com/gpg | apt-key add - && \
-  echo "deb [arch=amd64] https://apt.releases.hashicorp.com xenial main" | tee /etc/apt/sources.list.d/hashicorp.list && \
+  echo "deb [arch=amd64] https://apt.releases.hashicorp.com focal main" | tee /etc/apt/sources.list.d/hashicorp.list && \
   apt-get update && apt-get install -y packer \
     terraform \
     vault
@@ -40,7 +40,7 @@ RUN mkdir /usr/local/share/ca-certificates/lets-encrypt && \
   curl --output /usr/local/share/ca-certificates/lets-encrypt/lets-encrypt-e1.crt https://letsencrypt.org/certs/lets-encrypt-e1.pem && \
   update-ca-certificates
   
-# YQ, using the contributed package
+# YQ, using the github release
 RUN curl -s https://api.github.com/repos/mikefarah/yq/releases/latest | \
   jq '.assets[] | select(.name == "yq_linux_amd64").browser_download_url' | \
   xargs curl --location --output /usr/local/bin/yq && \
