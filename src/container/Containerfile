@@ -1,4 +1,4 @@
-FROM ubuntu:focal 
+FROM ubuntu:jammy 
 
 RUN apt-get update && apt-get install -y \
   apt-transport-https \
@@ -40,7 +40,7 @@ RUN mkdir /usr/local/share/ca-certificates/lets-encrypt && \
   curl --output /usr/local/share/ca-certificates/lets-encrypt/lets-encrypt-e1.crt https://letsencrypt.org/certs/lets-encrypt-e1.pem && \
   update-ca-certificates
   
-# YQ, using the contributed package
+# YQ, using the github release
 RUN curl -s https://api.github.com/repos/mikefarah/yq/releases/latest | \
   jq '.assets[] | select(.name == "yq_linux_amd64").browser_download_url' | \
   xargs curl --location --output /usr/local/bin/yq && \
